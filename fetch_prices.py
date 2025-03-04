@@ -1,5 +1,6 @@
 import requests
 import json
+import csv
 import os
 from dotenv import load_dotenv
 
@@ -31,9 +32,29 @@ def fetch_prices():
         print(f"Error fetching data: {e}")
         return None
 
+def save_to_csv(prices, filename="crypto_prices.csv"):
+    """Save cryptocurrency prices to a CSV file."""
+    if "data" not in prices:
+        print("Invalid data format received.")
+        return
+
+    with open(filename, mode="w", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow(["Symbol", "Name", "Price (EUR)"])  # CSV Header
+
+        for crypto in prices["data"]:
+            symbol = crypto["symbol"]
+            name = crypto["name"]
+            price = round(crypto["quote"]["EUR"]["price"], 2)  # Rounded for cleaner output
+            writer.writerow([symbol, name, price])
+
+    print(f"CSV file generated: {filename}")
+
 if __name__ == "__main__":
     prices = fetch_prices()
     if prices:
-        with open("crypto_prices.json", "w") as file:
-            json.dump(prices, file, indent=4)
-        print("Prices saved to crypto_prices.json")
+        save_to_csv(prices)
+        print("Data fetched and saved successfully.")
+    else:
+        print("Failed to fetch data.")
+
