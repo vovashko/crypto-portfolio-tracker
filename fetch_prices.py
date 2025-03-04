@@ -1,60 +1,50 @@
 import requests
-import json
 import csv
 import os
-from dotenv import load_dotenv
+import json
+from datetime import datetime
 
-# Load environment variables from .env file
-load_dotenv()
+# Constants
+STEP = 86400  # 1-day candles
+LIMIT = 30  # Last 30 days
+DATA_FOLDER = "ohlc_data"  # Folder to store CSV files
+CURRENCY_PAIRS_FILE = "currency_pairs.json"  # File to store currency pairs list
 
-# Get API key and URL from .env
-API_KEY = os.getenv("API_KEY")
-URL = os.getenv("CMC_URL")
+def load_currency_pairs():
+    """Load currency pairs from a JSON file."""
+    if not os.path.exists(CURRENCY_PAIRS_FILE):
+        return ["btcusd", "ethusd", "xrpusd"]  # Default pairs
+    with open(CURRENCY_PAIRS_FILE, "r") as file:
+        return json.load(file)
 
-PARAMS = {
-    "start": "1",
-    "limit": "10",  # Adjust based on needs
-    "convert": "EUR",
-}
+def fetch_bitstamp_ohlc_data(currency_pair):
+    """Fetch OHLC data for a given currency pair."""
+    url = f'https://www.bitstamp.net/api/v2/ohlc/{currency_pair}/'
+    params = {'step': STEP, 'limit': LIMIT}
+    response = requests.get(url, params=params)
+    data = response.json()
+    return data['data']['ohlc']
 
-HEADERS = {
-    "Accepts": "application/json",
-    "X-CMC_PRO_API_KEY": API_KEY,
-}
+def save_to_csv(data, currency_pair):
+    """Save OHLC data to a CSV file inside the 'ohlc_data' folder."""
+    if not os.path.exists(DATA_FOLDER):
+        os.makedirs(DATA_FOLDER)  # Create folder if it doesn't exist
 
-def fetch_prices():
-    """Fetch latest cryptocurrency prices from CoinMarketCap API."""
-    try:
-        response = requests.get(URL, headers=HEADERS, params=PARAMS)
-        response.raise_for_status()  # Raise HTTP errors if any
-        return response.json()
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching data: {e}")
-        return None
+    filename = os.path.join(DATA_FOLDER, f'{currency_pair}_ohlc_data.csv')
+    file_exists = os.path.isfile(filename)
 
-def save_to_csv(prices, filename="crypto_prices.csv"):
-    """Save cryptocurrency prices to a CSV file."""
-    if "data" not in prices:
-        print("Invalid data format received.")
-        return
-
-    with open(filename, mode="w", newline="") as file:
+    with open(filename, mode='a', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow(["Symbol", "Name", "Price (EUR)"])  # CSV Header
-
-        for crypto in prices["data"]:
-            symbol = crypto["symbol"]
-            name = crypto["name"]
-            price = round(crypto["quote"]["EUR"]["price"], 2)  # Rounded for cleaner output
-            writer.writerow([symbol, name, price])
-
-    print(f"CSV file generated: {filename}")
+        if not file_exists:
+            writer.writerow(['Date', 'Open', 'High', 'Low', 'Close', 'Volume'])  # Header row
+        for entry in data:
+            formatted_date = datetime.fromtimestamp(int(entry['timestamp'])).strftime('%Y-%m-%d')
+            writer.writerow([formatted_date, entry['open'], entry['high'], entry['low'], entry['close'], entry['volume']])
 
 if __name__ == "__main__":
-    prices = fetch_prices()
-    if prices:
-        save_to_csv(prices)
-        print("Data fetched and saved successfully.")
-    else:
-        print("Failed to fetch data.")
-
+    currency_pairs = load_currency_pairs()
+    for pair in currency_pairs:
+        print(f"Fetching data for {pair}...")
+        ohlc_data = fetch_bitstamp_ohlc_data(pair)
+        save_to_csv(ohlc_data, pair)
+        print(f"Saved {pair} data to {DATA_FOLDER}/{pair}_ohlc_data.csv")

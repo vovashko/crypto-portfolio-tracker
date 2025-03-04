@@ -1,2 +1,3 @@
 .env 
-crypto_prices.csv
+ohlc_data
+venv
