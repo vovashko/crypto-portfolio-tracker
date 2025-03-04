@@ -1,3 +1,5 @@
 .env 
 ohlc_data
 venv
+.vscode
+currency_pairs.json
