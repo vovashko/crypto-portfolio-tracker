@@ -30,7 +30,7 @@ def save_to_csv(data, currency_pair):
     if not os.path.exists(DATA_FOLDER):
         os.makedirs(DATA_FOLDER)  # Create folder if it doesn't exist
 
-    filename = os.path.join(DATA_FOLDER, f'{currency_pair}_ohlc_data.csv')
+    filename = os.path.join(DATA_FOLDER, f'{currency_pair}.csv')
     file_exists = os.path.isfile(filename)
 
     with open(filename, mode='a', newline='') as file:
@@ -47,4 +47,4 @@ if __name__ == "__main__":
         print(f"Fetching data for {pair}...")
         ohlc_data = fetch_bitstamp_ohlc_data(pair)
         save_to_csv(ohlc_data, pair)
-        print(f"Saved {pair} data to {DATA_FOLDER}/{pair}_ohlc_data.csv")
+        print(f"Saved {pair} data to {DATA_FOLDER}/{pair}.csv")

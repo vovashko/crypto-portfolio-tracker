@@ -40,7 +40,7 @@ def append_to_csv(data, currency_pair):
     if not os.path.exists(DATA_FOLDER):
         os.makedirs(DATA_FOLDER)
 
-    filename = os.path.join(DATA_FOLDER, f'{currency_pair}_ohlc_data.csv')
+    filename = os.path.join(DATA_FOLDER, f'{currency_pair}.csv')
     last_date = get_last_date_from_csv(filename)
 
     with open(filename, mode='a', newline='') as file:
