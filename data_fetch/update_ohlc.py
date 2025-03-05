@@ -8,14 +8,20 @@ from datetime import datetime
 STEP = 86400  # 1-day candles
 LIMIT = 1  # Only fetch the latest day
 DATA_FOLDER = "ohlc_data"
-CURRENCY_PAIRS_FILE = "currency_pairs.json"
+CURRENCY_PAIRS_FILE = "../crypto_pairs.csv"  # File to store currency pairs list
 
 def load_currency_pairs():
-    """Load currency pairs from a JSON file."""
-    if not os.path.exists(CURRENCY_PAIRS_FILE):
-        return ["btcusd", "ethusd", "xrpusd"]  # Default pairs
-    with open(CURRENCY_PAIRS_FILE, "r") as file:
-        return json.load(file)
+    """Load currency pairs from a csv file."""
+    with open(CURRENCY_PAIRS_FILE, newline='') as csvfile:
+        reader = csv.reader(csvfile)
+        currency_pairs = []
+        count = 0
+        for row in reader:
+            if count == 0:
+                count += 1
+                continue
+            currency_pairs.append(row[0])
+        return currency_pairs
 
 def fetch_bitstamp_ohlc_data(currency_pair):
     """Fetch latest OHLC data for a given currency pair."""
