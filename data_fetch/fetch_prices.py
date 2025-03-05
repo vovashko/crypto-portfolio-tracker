@@ -6,7 +6,7 @@ from datetime import datetime
 
 # Constants
 STEP = 86400  # 1-day candles
-LIMIT = 30  # Last 30 days
+LIMIT = 1000  # Last 1000 days
 DATA_FOLDER = "ohlc_data"  # Folder to store CSV files
 CURRENCY_PAIRS_FILE = "currency_pairs.json"  # File to store currency pairs list
 
