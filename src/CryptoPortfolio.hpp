@@ -14,6 +14,8 @@
 #include <string>
 
 #define PATH_TO_DATA "data_fetch/ohlc_data/"
+#define RSI_PERIOD 14
+#define HEADER 1
 
 // input validation
 void trimString(std::string &str);

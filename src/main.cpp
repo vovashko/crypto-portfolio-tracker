@@ -12,7 +12,7 @@ int main(int argc, char **argv)
     double portfolioResult = 0;
 
     // Load crypto pairs from JSON
-    std::vector<std::string> cryptoFiles = loadCryptoPairs(portfolioFile, 1);
+    std::vector<std::string> cryptoFiles = loadCryptoPairs(portfolioFile, HEADER);
     if (cryptoFiles.empty())
     {
         std::cerr << "No crypto pairs loaded. Exiting." << std::endl;
@@ -24,13 +24,13 @@ int main(int argc, char **argv)
     // Process portfolio for each crypto
     for (const auto &crypto : cryptoPrices)
     {
-        std::map<std::string, double> btcRate = crypto.second;
-        portfolioResult += printPortfolio(btcRate, portfolioStream, 1, crypto.first);
+        std::map<std::string, double> cryptoRate = crypto.second;
+        portfolioResult += printPortfolio(cryptoRate, portfolioStream, HEADER, crypto.first);
         portfolioStream.clear();
         portfolioStream.seekg(0, std::ios::beg);
-        double rsi = computeRSI(btcRate, 14);
+        double rsi = computeRSI(cryptoRate, RSI_PERIOD);
         interpretRSI(rsi, crypto.first);
-       std::cout << std::endl;
+        std::cout << std::endl;
 
     }
     std::cout << "Portfolio performance: $" << portfolioResult << std::endl;
