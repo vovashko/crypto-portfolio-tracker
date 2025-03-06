@@ -197,7 +197,7 @@ double printPortfolio(std::map<std::string, double> cryptoRate, std::ifstream &I
                 trimString(valueStr);
                 trimString(purchaseDate);
 
-                if (!verifyValue(valueStr) || ("ohlc_data/" + cryptoPair) != targetPair)
+                if (!verifyValue(valueStr) || (PATH_TO_DATA + cryptoPair) != targetPair)
                     continue;
 
                 double amount = std::stod(valueStr);
@@ -257,7 +257,7 @@ std::vector<std::string> loadCryptoPairs(const std::string &csvFile, int contain
         if (getline(ss, pair, ','))
         {
             trimString(pair);
-            cryptoPairs.push_back("ohlc_data/" + pair + ".csv");
+            cryptoPairs.push_back(PATH_TO_DATA + pair + ".csv");
         }
         }
     }

@@ -13,6 +13,8 @@
 #include <sstream>
 #include <string>
 
+#define PATH_TO_DATA "data_fetch/ohlc_data/"
+
 // input validation
 void trimString(std::string &str);
 bool isLeapYear(int year);
