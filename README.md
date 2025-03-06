@@ -11,7 +11,26 @@ Each module of the program expects a portfolio file. This project is designed wi
 
 A sample portfolio file is included in the repository with the expected formatting.  
 
-### **1. Fetch Price Data**  
+### **1. Install Dependencies**  
+Before running the Python scripts, ensure you have the required dependencies installed:  
+```bash
+pip install requests
+```  
+
+Alternatively, if you're using a virtual environment:  
+```bash
+python -m venv venv
+source venv/bin/activate  # On macOS/Linux
+venv\Scripts\activate  # On Windows
+pip install -r requirements.txt
+```  
+
+If `requirements.txt` is not yet included in the project, create one with the following content:  
+```
+requests
+```
+
+### **2. Fetch Price Data**  
 If you're running the program for the first time:  
 - Navigate to the `data_fetch` folder and run:  
   ```bash
@@ -28,7 +47,7 @@ If you have previously fetched prices and want to update them:
   0 0 * * * python /path/to/update_ohlc.py  # Runs daily at midnight
   ```  
 
-### **2. Run the Crypto Portfolio Analyzer**  
+### **3. Run the Crypto Portfolio Analyzer**  
 In the root folder of the repository, run:  
 ```bash
 make
