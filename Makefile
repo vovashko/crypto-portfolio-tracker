@@ -23,6 +23,7 @@ clean:
 
 fclean: clean
 	rm -f $(NAME)
+	rm -rf obj
 
 re: fclean all
 
