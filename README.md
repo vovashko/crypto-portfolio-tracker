@@ -1,7 +1,3 @@
-Here’s an updated version of your README incorporating the customization options and limitations:  
-
----
-
 # **Crypto-Portfolio-Tracker**  
 
 This tool allows you to check the performance of your cryptocurrency portfolio and provides buy/sell advice based on the [Relative Strength Index (RSI)](https://www.investopedia.com/terms/r/rsi.asp).  
