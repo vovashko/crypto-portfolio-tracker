@@ -34,6 +34,7 @@ requests
 If you're running the program for the first time:  
 - Navigate to the `data_fetch` folder and run:  
   ```bash
+  cd data_fetch
   python fetch_prices.py
   ```  
 
