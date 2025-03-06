@@ -81,7 +81,8 @@ These macros can be adjusted in `CryptoPortfolio.hpp`:
   - The portfolio file should contain only positive numbers for cryptocurrency amounts.  
   - **Sell transactions are ignored** in calculations.  
 
-If you need short (sell) positions to be considered, you will need to modify the program logic accordingly.  
+If you need short (sell) positions to be considered, you will need to modify the program logic accordingly. 
+Alternatively you can reduce the respective positions in the portfolio file.
 
 ---
 
@@ -98,4 +99,5 @@ If you already have historical price data:
 
 ### **Next Steps**  
 - Improve analysis by integrating additional indicators.  
-- Expand support for more exchanges.  
+- Expand support for more exchanges.
+- Handle short(sell) positions
