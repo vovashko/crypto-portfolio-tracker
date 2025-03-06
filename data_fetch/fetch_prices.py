@@ -8,19 +8,19 @@ from datetime import datetime
 STEP = 86400  # 1-day candles
 LIMIT = 1000  # Last 1000 days
 DATA_FOLDER = "ohlc_data"  # Folder to store CSV files
-CURRENCY_PAIRS_FILE = "../crypto_pairs.csv"  # File to store currency pairs list
+CURRENCY_PAIRS_FILE = "../portfolio.csv"  # File to store currency pairs list
 
 def load_currency_pairs():
     """Load currency pairs from a csv file."""
     with open(CURRENCY_PAIRS_FILE, newline='') as csvfile:
         reader = csv.reader(csvfile)
-        currency_pairs = []
+        currency_pairs = set()
         count = 0
         for row in reader:
             if count == 0:
                 count += 1
                 continue
-            currency_pairs.append(row[0])
+            currency_pairs.add(row[0])
         return currency_pairs
         
 
@@ -39,8 +39,8 @@ def save_to_csv(data, currency_pair):
 
     filename = os.path.join(DATA_FOLDER, f'{currency_pair}.csv')
     file_exists = os.path.isfile(filename)
-
-    with open(filename, mode='a', newline='') as file:
+    """If file exists, open it in write mode to overwrite the existing data. Otherwise it will create a new file."""
+    with open(filename, mode='w', newline='') as file:
         writer = csv.writer(file)
         if not file_exists:
             writer.writerow(['Date', 'Open', 'High', 'Low', 'Close', 'Volume'])  # Header row

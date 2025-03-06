@@ -1,5 +1,5 @@
-NAME = btc
-SRCS = main.cpp BitcoinExchange.cpp
+NAME = crypto_portfolio_analizer
+SRCS = main.cpp CryptoPortfolio.cpp
 OBJS = $(SRCS:.cpp=.o)
 CXX = c++
 CXXFLAGS = -Wall -Werror -Wextra -std=c++11

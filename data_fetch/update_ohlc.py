@@ -8,19 +8,19 @@ from datetime import datetime
 STEP = 86400  # 1-day candles
 LIMIT = 1  # Only fetch the latest day
 DATA_FOLDER = "ohlc_data"
-CURRENCY_PAIRS_FILE = "../crypto_pairs.csv"  # File to store currency pairs list
+CURRENCY_PAIRS_FILE = "../portfolio.csv"  # File to store currency pairs list
 
 def load_currency_pairs():
     """Load currency pairs from a csv file."""
     with open(CURRENCY_PAIRS_FILE, newline='') as csvfile:
         reader = csv.reader(csvfile)
-        currency_pairs = []
+        currency_pairs = set()
         count = 0
         for row in reader:
             if count == 0:
                 count += 1
                 continue
-            currency_pairs.append(row[0])
+            currency_pairs.add(row[0])
         return currency_pairs
 
 def fetch_bitstamp_ohlc_data(currency_pair):
@@ -55,7 +55,7 @@ def append_to_csv(data, currency_pair):
             writer.writerow(['Date', 'Open', 'High', 'Low', 'Close', 'Volume'])
         
         for entry in data:
-            formatted_date = datetime.utcfromtimestamp(int(entry['timestamp'])).strftime('%Y-%m-%d')
+            formatted_date = datetime.fromtimestamp(int(entry['timestamp'])).strftime('%Y-%m-%d')
             if formatted_date != last_date:  # Append only if new
                 writer.writerow([formatted_date, entry['open'], entry['high'], entry['low'], entry['close'], entry['volume']])
                 print(f"Added new data for {currency_pair}: {formatted_date}")
