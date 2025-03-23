@@ -28,7 +28,12 @@ def fetch_bitstamp_ohlc_data(currency_pair):
     """Fetch OHLC data for a given currency pair."""
     url = f'https://www.bitstamp.net/api/v2/ohlc/{currency_pair}/'
     params = {'step': STEP, 'limit': LIMIT}
-    response = requests.get(url, params=params)
+    try:
+        response = requests.get(url, params=params)
+        response.raise_for_status()
+    except requests.exceptions.HTTPError as err:
+        print(f"Error fetching data for {currency_pair}: {err}")
+        return []
     data = response.json()
     return data['data']['ohlc']
 
