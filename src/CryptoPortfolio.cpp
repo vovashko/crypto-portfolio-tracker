@@ -173,7 +173,7 @@ std::map<std::string, double> processFileAndBuildMap(std::ifstream &file, char s
                 std::cout << "Invalid price data on " << date << ": " << close << std::endl;
             }
         }
-    }
+    }   
     return priceMap;
 }
 
@@ -278,6 +278,12 @@ std::map<std::string, std::map<std::string, double>> loadCryptoPrices(const std:
         }
 
         std::map<std::string, double> prices = processFileAndBuildMap(file, ',', 1);
+        if (prices.empty())
+        {
+            std::cout << "No valid data found in file " << filename << "\n" << std::endl;
+            file.close();
+            continue;
+        }
         std::string cryptoSymbol = filename.substr(0, filename.find('.')); // Extract symbol from filename
         cryptoPrices[cryptoSymbol] = prices;
 
