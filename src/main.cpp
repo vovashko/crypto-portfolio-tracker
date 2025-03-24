@@ -1,5 +1,16 @@
 #include "CryptoPortfolio.hpp"
 
+void technicalAnalysis(const std::map<std::string, double> &cryptoRate, const std::string &cryptoSymbol)
+{
+    RSI rsi;
+    double rsiValue = rsi.compute(cryptoRate, RSI_PERIOD);
+    rsi.interpret(rsiValue, cryptoSymbol);
+    MACD macd;
+    double macdValue = macd.compute(cryptoRate, RSI_PERIOD);
+    macd.interpret(macdValue, cryptoSymbol);
+}
+
+
 int main(int argc, char **argv)
 {
     if (argc != 2)
@@ -28,8 +39,7 @@ int main(int argc, char **argv)
         portfolioResult += printPortfolio(cryptoRate, portfolioStream, HEADER, crypto.first);
         portfolioStream.clear();
         portfolioStream.seekg(0, std::ios::beg);
-        double rsi = computeRSI(cryptoRate, RSI_PERIOD);
-        interpretRSI(rsi, crypto.first);
+        technicalAnalysis(cryptoRate, crypto.first);
         std::cout << std::endl;
 
     }
