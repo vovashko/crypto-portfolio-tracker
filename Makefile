@@ -1,5 +1,5 @@
 NAME = crypto_portfolio_analizer
-SRCS = src/main.cpp src/CryptoPortfolio.cpp
+SRCS = src/main.cpp src/CryptoPortfolio.cpp src/MACD.cpp src/RSI.cpp
 OBJS = $(SRCS:src/%.cpp=obj/%.o)
 CXX = c++
 CXXFLAGS = -Wall -Werror -Wextra -std=c++11

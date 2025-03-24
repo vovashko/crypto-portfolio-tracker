@@ -34,7 +34,25 @@ std::vector<std::string> loadCryptoPairs(const std::string &csvFile, int contain
 std::map<std::string, std::map<std::string, double>> loadCryptoPrices(const std::vector<std::string> &cryptoFiles);
 
 // RSI computation
-double computeRSI(const std::map<std::string, double> &cryptoRate, unsigned long period);
-void interpretRSI(double rsi, const std::string &cryptoSymbol);
+class Indicator {
+    public:
+    virtual double compute(const std::map<std::string, double> &cryptoRate, unsigned long period) = 0;
+    virtual void interpret(double value, const std::string &cryptoSymbol) = 0;
+    virtual ~Indicator() = default;
+};
+
+class RSI : public Indicator {
+    public:
+    double compute(const std::map<std::string, double> &cryptoRate, unsigned long period) override;
+    void interpret(double rsi, const std::string &cryptoSymbol) override;
+};
+
+class MACD : public Indicator {
+    private:
+    double computeEMA(const std::vector<double> &prices, unsigned long period);
+    public:
+    double compute(const std::map<std::string, double> &cryptoRate, unsigned long period) override;
+    void interpret(double macd, const std::string &cryptoSymbol) override;
+};
 
 #endif
