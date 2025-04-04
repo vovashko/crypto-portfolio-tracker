@@ -178,7 +178,7 @@ std::map<std::string, double> processFileAndBuildMap(std::ifstream &file, char s
 }
 
 
-double printPortfolio(std::map<std::string, double> cryptoRate, std::ifstream &InFile, int containsHeader, std::string targetPair)
+double printPortfolio(std::map<std::string, double> &cryptoRate, std::ifstream &InFile, int containsHeader, std::string targetPair)
 {
     std::cout << "Portfolio for " << targetPair << std::endl;
     std::string line;
@@ -225,7 +225,7 @@ double printPortfolio(std::map<std::string, double> cryptoRate, std::ifstream &I
 }
 
 
-std::string findClosestLowerDate(std::map<std::string, double> database, std::string date)
+std::string findClosestLowerDate(std::map<std::string, double> &database, std::string date)
 {
     std::string closestDate;
     for (auto it = database.begin(); it != database.end(); it++)

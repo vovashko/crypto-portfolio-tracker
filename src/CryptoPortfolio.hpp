@@ -28,8 +28,8 @@ bool verifyValue(const std::string &valueStr);
 
 // file processing
 std::map<std::string, double> processFileAndBuildMap(std::ifstream &file, char separator, int containsHeader);
-double printPortfolio(std::map<std::string, double> cryptoRate, std::ifstream &InFile, int containsHeader, std::string targetPair);
-std::string findClosestLowerDate(std::map<std::string, double> database, std::string date);
+double printPortfolio(std::map<std::string, double> &cryptoRate, std::ifstream &InFile, int containsHeader, std::string targetPair);
+std::string findClosestLowerDate(std::map<std::string, double> &database, std::string date);
 std::vector<std::string> loadCryptoPairs(const std::string &csvFile, int containsHeader);
 std::map<std::string, std::map<std::string, double>> loadCryptoPrices(const std::vector<std::string> &cryptoFiles);
 
